@@ -1,0 +1,11 @@
+# Local development secrets for Cloudflare Workers (wrangler dev)
+# Copy this file to .dev.vars and fill in your values.
+# .dev.vars is git-ignored and should never be committed.
+
+# A random string used to sign and verify JWT tokens.
+# Generate one with: openssl rand -base64 32
+JWT_SECRET=dev-secret-key-change-in-production
+
+# API key from https://resend.com
+# Leave empty to skip email sending in dev; OTPs will be printed to the wrangler console instead.
+RESEND_API_KEY=
