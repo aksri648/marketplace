@@ -14,6 +14,7 @@ contact.post('/', authMiddleware, async (c) => {
   ).bind(ad_id).first();
 
   if (!ad) return c.json({ error: 'Ad not found' }, 404);
+  if (!ad.seller_phone) return c.json({ error: 'Seller has not provided a phone number' }, 400);
 
   const id = crypto.randomUUID();
   await c.env.DB.prepare(
@@ -21,7 +22,7 @@ contact.post('/', authMiddleware, async (c) => {
   ).bind(id, ad_id, user.id).run();
 
   const message = `Hi, I'm interested in your listing "${ad.title}" on ABES Marketplace. My name is ${buyer_name || user.email}.`;
-  const waLink = `https://wa.me/${ad.seller_phone ? ad.seller_phone.replace(/\D/g, '') : ''}?text=${encodeURIComponent(message)}`;
+  const waLink = `https://wa.me/${ad.seller_phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
 
   return c.json({ whatsapp_link: waLink, seller_name: ad.seller_name, seller_phone: ad.seller_phone });
 });

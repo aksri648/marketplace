@@ -12,10 +12,15 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const { isAuthenticated } = useAuth();
-  useEffect(() => {
-    loadAds();
-    if (isAuthenticated) loadWishlist();
-  }, []);
+
+  const loadWishlist = async () => {
+    try {
+      const res = await api.get('/wishlist');
+      setWishlist(new Set(res.data.map(item => item.ad_id)));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const loadAds = async () => {
     try {
@@ -30,14 +35,11 @@ export default function Home() {
     }
   };
 
-  const loadWishlist = async () => {
-    try {
-      const res = await api.get('/wishlist');
-      setWishlist(new Set(res.data.map(item => item.ad_id)));
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  useEffect(() => {
+    loadAds();
+    if (isAuthenticated) loadWishlist();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSwipe = async (direction, ad) => {
     setAds(prev => prev.filter(a => a.id !== ad.id));
