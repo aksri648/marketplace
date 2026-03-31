@@ -1,0 +1,13 @@
+name = "abes-marketplace-api"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "abes-marketplace"
+database_id = "YOUR_DATABASE_ID"
+
+[vars]
+JWT_SECRET = "your-jwt-secret-change-in-production"
+RESEND_API_KEY = ""
+FRONTEND_URL = "https://abes-marketplace.pages.dev"
