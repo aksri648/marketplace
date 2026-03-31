@@ -1,15 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { parseJWT, isTokenValid } from '../utils/jwt';
 
 const AuthContext = createContext(null);
-
-function parseJWT(token) {
-  try {
-    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-    return JSON.parse(atob(base64));
-  } catch {
-    return null;
-  }
-}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -18,7 +10,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     if (token) {
       const payload = parseJWT(token);
-      if (payload && payload.exp > Math.floor(Date.now() / 1000)) {
+      if (isTokenValid(payload)) {
         setUser(payload);
       } else {
         localStorage.removeItem('token');

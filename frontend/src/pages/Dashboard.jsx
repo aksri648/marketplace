@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../utils/api';
+import { parseJWT } from '../utils/jwt';
 
 export default function Dashboard() {
   const [ads, setAds] = useState([]);
@@ -11,7 +12,7 @@ export default function Dashboard() {
     try {
       const res = await api.get('/ads?limit=100');
       const token = localStorage.getItem('token');
-      const payload = token ? JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))) : null;
+      const payload = token ? parseJWT(token) : null;
       if (payload) {
         const myAds = res.data.ads.filter(ad => ad.seller_id === payload.sub);
         setAds(myAds);

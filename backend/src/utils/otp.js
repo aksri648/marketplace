@@ -15,6 +15,8 @@ export async function sendOTP(email, otp, resendApiKey) {
       'Authorization': `Bearer ${resendApiKey}`,
     },
     body: JSON.stringify({
+      // PREREQUISITE: The sender domain 'abes.ac.in' must be verified in Resend dashboard
+      // before emails can be sent. See: https://resend.com/docs/dashboard/domains/introduction
       from: 'ABES Marketplace <noreply@abes.ac.in>',
       to: email,
       subject: 'Your OTP for ABES Marketplace',

@@ -5,6 +5,7 @@ compatibility_date = "2024-01-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "abes-marketplace"
+# Run `npx wrangler d1 create abes-marketplace` to create the DB and get the database_id
 database_id = "YOUR_DATABASE_ID"
 
 [vars]
